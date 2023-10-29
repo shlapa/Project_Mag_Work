@@ -1,0 +1,26 @@
+<div class="card" style="width: 18rem;" th:fragment="productCard(name, price, basePrice, img, rating, description, isFavorite, itemId)">
+    <img th:src="${img}" height="250" width="100%" class="card-img-top">
+    <div class="card-body">
+        <h5 class="card-title" th:text="${name}">Товар</h5>
+        <p class="card-text" th:text="${description}">Описание товара</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Рейтинг: <span th:text="${#numbers.formatDecimal(rating, 1, 1)}">9,5</span></li>
+        <li class="list-group-item">Цена: <s th:text="${basePrice}">1200</s></li>
+        <li class="list-group-item">Цена со скидкой: <span th:text="${price}">1000</span></li>
+    </ul>
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <form th:method = "POST" th:action="@{/cart/addItem/{id}(id = ${item.getId()})}" th:object = "${item}">
+            <button class="btn btn-primary btn-add-to-cart"
+                    th:data-item-id="${itemId}" data-quantity="1" type = "submit">В корзину
+            </button>
+            </form>
+            <a th:href="@{/items/{id}(id=${item.getId()})}"> Информация о товаре</a>
+            <div class="heart-container"  th:if="${isFavorite != null}">
+                <i class="fa-heart js-heart heart fa-2x" th:data-item-id="${itemId}" th:classappend="${ isFavorite >= 0 ? 'fas' : 'far'}" id="item-heart"></i>
+
+            </div>
+        </div>
+    </div>
+</div>
